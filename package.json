@@ -1,0 +1,24 @@
+{
+  "name": "3d-house-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharonyouchunxue/3D-house-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sharonyouchunxue/3D-house-project/issues"
+  },
+  "homepage": "https://github.com/sharonyouchunxue/3D-house-project#readme",
+  "dependencies": {
+    "three": "^0.162.0"
+  }
+}

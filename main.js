@@ -13,25 +13,31 @@ document.body.appendChild(renderer.domElement);
 // Sunlight simulation with DirectionalLight
 const sunlight = new THREE.DirectionalLight(0xffffff, 1.0);
 sunlight.position.set(100, 100, 100);
+// Point the sunlight towards the center of the scene/house
+sunlight.target.position.set(0, 0, 0);
 scene.add(sunlight);
+scene.add(sunlight.target);
 
 //Enhance sunlight with ambient light for softer shadows
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
 scene.add(ambientLight);
 
 // Indoor lighting with PointLight
-const pointLight = new THREE.PointLight(0xffd700, 1, 100);
-pointLight.position.set(0, 10, 0);
+const pointLight = new THREE.PointLight(0xffffff, 0.8, 100);
+pointLight.position.set(0, 2.5, 0);
 scene.add(pointLight);
 
 //indoor lighting with SpotLight
-const spotLight = new THREE.SpotLight(0xffd700, 1);
-spotLight.position.set(10, 10, 10);
+const spotLight = new THREE.SpotLight(0xffffff, 0.5); // Use white light for a neutral color
+// Position the spot light to illuminate the ceiling, and point it downwards
+spotLight.position.set(0, 1, 0);
+spotLight.target.position.set(0, 0, 0); // Point directly down
 spotLight.angle = Math.PI / 4;
-spotLight.penumbra = 0.1;
-spotLight.decay = 2;
-spotLight.distance = 200;
+spotLight.penumbra = 0.5; // Soften the edge of the light
+spotLight.decay = 1;
+spotLight.distance = 100; 
 scene.add(spotLight);
+scene.add(spotLight.target);
 
 camera.position.z = 15;
 camera.position.set(0, 1.6, 4);
@@ -175,6 +181,26 @@ const topWallSegment = new THREE.Mesh(topWallGeometry, wallMaterial);
 topWallSegment.position.set(doorPositionX + doorWidth / 2 - topWallSegmentWidth / 4, doorHeight + (wallHeight - doorHeight) / 2, houseWidth / 2);
 house.add(topWallSegment);
 
+//1.1 front wallpaper
+// Wallpaper material
+const wallpaperMaterial = new THREE.MeshBasicMaterial({ color: 0xfce4ec }); // Example: pink wallpaper
+const wallpaperDepth = 0.2; // Thinner depth for wallpaper
+
+// Function to create and position wallpaper
+function addWallpaper(geometry, position, isOffsetPositive) {
+    const wallpaper = new THREE.Mesh(geometry, wallpaperMaterial);
+    // Determine the direction of the offset based on the wall's facing direction
+    const offsetZ = isOffsetPositive ? wallpaperDepth / 2 : -wallpaperDepth / 2;
+    // Adjust the z-position further inside based on the specified offset
+    wallpaper.position.set(position.x, position.y, position.z + offsetZ);
+    house.add(wallpaper);
+}
+
+addWallpaper(new THREE.BoxGeometry(leftWallSegmentWidth, wallHeight, wallpaperDepth), leftWallSegment.position, false);
+addWallpaper(new THREE.BoxGeometry(rightWallSegmentWidth, wallHeight, wallpaperDepth), rightWallSegment.position, false);
+addWallpaper(new THREE.BoxGeometry(topWallSegmentWidth, wallHeight - doorHeight, wallpaperDepth), topWallSegment.position, false);
+
+
 //2.Back wall
 const backWall = new THREE.Mesh(backWallGeometry, wallMaterial);
 backWall.position.set(0, wallHeight / 2, -houseWidth / 2);
@@ -260,14 +286,68 @@ if (doorHeight < wallHeight) {
     house.add(topWallSegment);
 }
 
+//load ceiling texture
+const loader = new THREE.TextureLoader();
 
+// Load the textures
+const ceilingColorTexture = loader.load('textures/PlainCeiling/PlasterPlain001_COL_1K_METALNESS.png');
+const ceilingNormalTexture = loader.load('textures/PlainCeiling/PlasterPlain001_NRM_1K_METALNESS.png');
+const ceilingDisplacementTexture = loader.load('textures/PlainCeiling/PlasterPlain001_DISP_1K_METALNESS.png');
+const ceilingRoughnessTexture = loader.load('textures/PlainCeiling/PlasterPlain001_ROUGHNESS_1K_METALNESS.png');
+const ceilingMetalnessTexture = loader.load('textures/PlainCeiling/PlasterPlain001_METALNESS_1K_METALNESS.png');
+const ceilingBumpTexture = loader.load('textures/PlainCeiling/PlasterPlain001_BUMP_1K_METALNESS.png');
+
+// Ceiling Material with textures
+const ceilingMaterial = new THREE.MeshStandardMaterial({
+  map: ceilingColorTexture,
+  normalMap: ceilingNormalTexture,
+  displacementMap: ceilingDisplacementTexture,
+  roughnessMap: ceilingRoughnessTexture,
+  metalnessMap: ceilingMetalnessTexture,
+  bumpMap: ceilingBumpTexture,
+  roughness: 0.8,
+  metalness: 0
+});
+
+ceilingMaterial.displacementScale = 0.02; // this value can be changed according to the effect you desire
+
+const repeatFactor = 4; 
+ceilingColorTexture.repeat.set(repeatFactor, repeatFactor);
+ceilingNormalTexture.repeat.set(repeatFactor, repeatFactor);
+ceilingDisplacementTexture.repeat.set(repeatFactor, repeatFactor);
+ceilingRoughnessTexture.repeat.set(repeatFactor, repeatFactor);
+ceilingMetalnessTexture.repeat.set(repeatFactor, repeatFactor);
+ceilingBumpTexture.repeat.set(repeatFactor, repeatFactor);
+
+// Ensure all texture maps are set to repeat wrapping mode
+[ceilingColorTexture, ceilingNormalTexture, ceilingDisplacementTexture, ceilingRoughnessTexture, ceilingMetalnessTexture, ceilingBumpTexture].forEach(texture => {
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+});
+
+// Ceiling Geometry
+const ceilingGeometry = new THREE.PlaneGeometry(houseLength, houseWidth);
+
+// Create the ceiling mesh
+const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+// Set position below the roof base
+const ceilingOffset = 0.1; // adjust to suit your scene
+
+// Position the ceiling
+ceiling.position.set(0, wallHeight - ceilingOffset, 0);
+ceiling.rotation.x = Math.PI / 2;
+
+// Make sure the ceiling is capable of receiving shadows
+ceiling.receiveShadow = true;
+
+// Add the ceiling to the house
+scene.add(ceiling);
 
 //Roof
 // Calculate the diagonal to ensure the roof will cover the entire house including overhang
 const houseDiagonal = Math.sqrt(houseLength * houseLength + houseWidth * houseWidth);
-const roofOverhang = 0.5; // This can be adjusted based on how much overhang you want
+const roofOverhang = 0.5;
 const roofBaseDiameter = houseDiagonal + roofOverhang; // Include overhang in the roof diameter
-// Roof height can be adjusted for aesthetic preferences
 const roofHeight = 2.5;
 // Load the roof texture
 const roofTexture = textureLoader.load('/images/roof.png');
@@ -286,13 +366,58 @@ roof.position.y = wallHeight + roofHeight / 2;
 roof.rotation.y = Math.PI / 4;
 house.add(roof);
 
+
+//Floor inside the house
+const woodColorTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_COL_2K.jpg');
+const woodAoTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_AO_2K.jpg');
+const woodDisplacementTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_DISP_2K.jpg');
+const woodNormalTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_NRM_2K.png');
+const woodGlossTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_GLOSS_2K.jpg');
+const woodBumpTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_BUMP_2K.jpg');
+const woodRoughnessTexture = loader.load('textures/WoodFlooring/WoodFlooringAshSuperWhite001_REFL_2K.jpg');
+
+// Floor Material with Textures
+const floorMaterial = new THREE.MeshStandardMaterial({
+  map: woodColorTexture,
+  aoMap: woodAoTexture,
+  displacementMap: woodDisplacementTexture,
+  normalMap: woodNormalTexture,
+  roughnessMap: woodGlossTexture,
+  bumpMap: woodBumpTexture,
+  });
+
+// Apply scaling 
+const textureRepeat = new THREE.Vector2(6, 6); 
+woodColorTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodColorTexture.wrapS = woodColorTexture.wrapT = THREE.RepeatWrapping;
+woodAoTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodAoTexture.wrapS = woodAoTexture.wrapT = THREE.RepeatWrapping;
+woodDisplacementTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodDisplacementTexture.wrapS = woodDisplacementTexture.wrapT = THREE.RepeatWrapping;
+woodNormalTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodNormalTexture.wrapS = woodNormalTexture.wrapT = THREE.RepeatWrapping;
+woodGlossTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodGlossTexture.wrapS = woodGlossTexture.wrapT = THREE.RepeatWrapping;
+woodBumpTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodBumpTexture.wrapS = woodBumpTexture.wrapT = THREE.RepeatWrapping;
+woodRoughnessTexture.repeat.set(textureRepeat.x, textureRepeat.y);
+woodRoughnessTexture.wrapS = woodRoughnessTexture.wrapT = THREE.RepeatWrapping;
+
 // Floor inside the house
 const floorGeometry = new THREE.PlaneGeometry(houseLength, houseWidth);
-const floorMaterial = new THREE.MeshStandardMaterial({ color: '#656565', side: THREE.DoubleSide });
+
+// Set the 'aoMap' and 'displacementMap' textures' UVs to match the 'map' texture
+floorGeometry.attributes.uv2 = floorGeometry.attributes.uv;
+
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
 floor.position.y = 0.01;
+
+// If using displacement map, consider enabling this
+floorMaterial.displacementScale = 0.1; 
+
 house.add(floor);
+
 
 // Add Furniture and Details
 // Chairs, vases, paintings, etc., can be added similarly, starting with basic geometries.

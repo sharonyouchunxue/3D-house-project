@@ -20,5 +20,8 @@
   "homepage": "https://github.com/sharonyouchunxue/3D-house-project#readme",
   "dependencies": {
     "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "vite": "^5.2.7"
   }
 }

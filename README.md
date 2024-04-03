@@ -38,12 +38,12 @@ To start the project on your local development server:
 After the development server starts, Open your web browser and go to http://localhost:5173/ to start exploring the 3D-house-project!
 
 # Key Features
-Primitives and Models: Uses Three.js primitives for basic shapes and GLTF models for complex objects.
-Lighting Techniques: Implements both sunlight simulation and indoor lighting with shadows.
-Interactive Controls: Uses PointerLockControls for immersive navigation through the house.
-Custom Shaders: Incorporates a custom shader for effects like glass transparency.
-Original Textures: Features textures created with POV-Ray, showcasing unique surface details.
+- Primitives and Models: Uses Three.js primitives for basic shapes and GLTF models for complex objects.
+- Lighting Techniques: Implements both sunlight simulation and indoor lighting with shadows.
+- Interactive Controls: Uses PointerLockControls for immersive navigation through the house.
+- Custom Shaders: Incorporates a custom shader for effects like glass transparency.
+- Original Textures: Features textures created with POV-Ray, showcasing unique surface details.
 
 # Dependencies
-Three.js for creating and displaying 3D graphics.
-Vite for an optimized development and build process
+- Three.js for creating and displaying 3D graphics.
+- Vite for an optimized development and build process

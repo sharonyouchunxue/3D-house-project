@@ -1,38 +1,31 @@
 # 3D-house-project
-Project Description
-This project is an interactive 3D architectural view of a house created with Three.js. It displays various techniques in computer graphics, including primitive geometry creation, advanced lighting, texture application, and shader programming. Users can navigate through the house, observing different rooms, furniture, and lighting effects that simulate real-world scenarios.
+# Project Description
+- This project is an interactive 3D architectural view of a house developed with Three.js. It demonstrates the use of primitive geometry, advanced lighting and shading, and texture application, including textures created with POV-Ray. Users can explore the house in a first-person view, experiencing different lighting scenarios and detailed models that enhance the realism of the architectural design.
 
-How to Run
-To run this project locally, follow these steps:
+# How to Run
+To run this project with Vite, a modern build tool that significantly improves the development experience, follow these steps:
 
-Ensure you have Node.js installed on your computer.
-Clone this repository or download the project files.
-Open a terminal in the project directory.
-Run npm install to install the necessary dependencies.
-Start a local server. One way to do this is by installing http-server via npm:
+Ensure Node.js is installed on your computer.
+Clone the repository or download the project files to your local machine.
+Navigate to the project directory in a terminal or command prompt.
+Run npm install to install project dependencies, including Vite.
+Start the Vite development server with:
 Copy code
-npm install -g http-server
-After installation, run http-server in the project directory.
-Open your web browser and visit http://localhost:8080 to view the project.
+npx vite
+Open a web browser and go to http://localhost:5173/ to view the application. The port number may vary; refer to the terminal output to confirm the correct URL.
 File Structure
-index.html - The entry point of the application. Contains the basic HTML structure.
-styles.css - CSS file for basic styling.
-app.js - The main JavaScript file that contains the Three.js code to create and control the 3D scene.
-textures/ - Directory containing all the texture images used in the project.
-models/ - Directory containing 3D models in .glb format used for furniture and other detailed objects.
-shaders/ - Contains GLSL files for custom shader material (if applicable).
+index.html - Entry point for the application, hosting the basic HTML structure.
+styles.css - Contains styling for the application.
+main.js - The main JavaScript file, where the Three.js scene is set up and controlled.
+textures/ - A directory with all texture images, some of which are generated using POV-Ray.
+models/ - Contains 3D model files in .glb format for detailed objects within the scene.
+shaders/ - If custom shaders are used, this directory will contain GLSL files for those materials.
 Key Features
-Primitive Geometry: Walls, floors, and simple furniture are created using Three.js primitives.
-Lighting: Simulated sunlight and indoor lighting with shadows for a realistic effect.
-Textures: Use of POV-Ray to create original textures applied to various surfaces.
-Interactivity: Pointer lock controls allow for first-person navigation through the house.
-Shader Programming: A custom shader material is used to simulate glass transparency.
+Primitives and Models: Uses Three.js primitives for basic shapes and GLTF models for complex objects.
+Lighting Techniques: Implements both sunlight simulation and indoor lighting with shadows.
+Interactive Controls: Uses PointerLockControls for immersive navigation through the house.
+Custom Shaders: Incorporates a custom shader for effects like glass transparency.
+Original Textures: Features textures created with POV-Ray, showcasing unique surface details.
 Dependencies
-Three.js - 3D library used to create and display animated 3D computer graphics in a web browser.
-GLTFLoader - For loading .glb model files.
-Acknowledgements
-Three.js documentation and examples for providing a foundational understanding of 3D graphics in the web.
-POV-Ray for texture creation.
-Free 3D models from Sketchfab and textures from Textures.com were used as references or starting points for custom assets.
-Note
-Replace the placeholders (such as URLs and directory paths) with the actual data relevant to your project. Ensure you have the rights or permissions to use any third-party resources included in your project.
+Three.js for creating and displaying 3D graphics.
+Vite for an optimized development and build process

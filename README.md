@@ -6,8 +6,6 @@
 - **Node.js**: LTS version recommended. [Download Node.js](https://nodejs.org/)
 - **npm**: Comes with Node.js installation.
 
-## Setup and Installation
-
 # Setup and Installation
 
 ## Clone the Repository

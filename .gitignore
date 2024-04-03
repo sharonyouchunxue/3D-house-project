@@ -1,1 +1,3 @@
 /node_modules/
+# Inside .gitignore
+obj/matress.glb

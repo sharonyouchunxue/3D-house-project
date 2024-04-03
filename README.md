@@ -32,7 +32,6 @@ Install the necessary project dependencies:
 To start the project on your local development server:
 
     npx vite
-    Open a web browser and go to http://localhost:5173/ to view the application. The port number may vary; refer to the terminal output to confirm the correct URL.
 
 # Click Here to Play: 
 

@@ -1,6 +1,6 @@
 # 3D-house-project
-# Project Description
-- This project is an interactive 3D architectural view of a house developed with Three.js. It demonstrates the use of primitive geometry, advanced lighting and shading, and texture application, including textures created with POV-Ray. Users can explore the house in a first-person view, experiencing different lighting scenarios and detailed models that enhance the realism of the architectural design.
+## Project Description
+ This project is an interactive 3D architectural view of a house developed with Three.js. It demonstrates the use of primitive geometry, advanced lighting and shading, and texture application, including textures created with POV-Ray. Users can explore the house in a first-person view, experiencing different lighting scenarios and detailed models that enhance the realism of the architectural design.
 
 # How to Run
 To run this project with Vite, a modern build tool that significantly improves the development experience, follow these steps:

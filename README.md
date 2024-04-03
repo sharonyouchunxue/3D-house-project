@@ -7,8 +7,6 @@
 - **npm**: Comes with Node.js installation.
 
 ## Setup and Installation
-### Clone the Repository
-Clone the project repository to your local machine using the following command (replace `<your-username>` with your GitHub username)
 
 # Setup and Installation
 

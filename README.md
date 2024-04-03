@@ -2,13 +2,13 @@
 ## Project Description
  This project is an interactive 3D architectural view of a house developed with Three.js. It demonstrates the use of primitive geometry, advanced lighting and shading, and texture application, including textures created with POV-Ray. Users can explore the house in a first-person view, experiencing different lighting scenarios and detailed models that enhance the realism of the architectural design.
 
-# How to Run
+## How to Run
 To run this project with Vite, a modern build tool that significantly improves the development experience, follow these steps:
 
-Ensure Node.js is installed on your computer.
-Clone the repository or download the project files to your local machine.
-Navigate to the project directory in a terminal or command prompt.
-Run npm install to install project dependencies, including Vite.
+- Ensure Node.js is installed on your computer.
+- Clone the repository or download the project files to your local machine.
+- Navigate to the project directory in a terminal or command prompt.
+   Run npm install to install project dependencies, including Vite.
 Start the Vite development server with:
 Copy code
 npx vite
